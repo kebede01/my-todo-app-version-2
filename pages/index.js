@@ -3,15 +3,23 @@ import { initialTodos, validationConfig} from "../utils/constants.js";
 import { Todos } from "../components/Todo.js";
 import  FormValidator from "../components/FormValidator.js";
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
-import Section from "../components/section.js";
-const addTodoButton = document.querySelector(".button_action_add");
+
+import Section from "../components/Section.js";
+
+import PopupWithForm from "../components/PopupWithForm.js";
+
+// const addTodoButton = document.querySelector(".button_action_add");
 const addTodoPopup = document.querySelector("#add-todo-popup");
 const addTodoForm = addTodoPopup.querySelector(".popup__form");
 const addTodoCloseBtn = addTodoPopup.querySelector(".popup__close");
 
 
-
-
+const addTodoPopupEl = new PopupWithForm({ popupSelector: ".popup", handleSubmit: () => { } });
+addTodoPopupEl.setEventListeners();
+ const addTodoButton = document.querySelector(".button_action_add");
+ addTodoButton.addEventListener("click", () => {
+      addTodoPopupEl.open();
+    });
 const section = new Section({
   data: initialTodos,
   renderer: (item) => {
@@ -23,28 +31,32 @@ const section = new Section({
 
 section.renderItems();
 
-const openModal = (modal) => {
-  modal.classList.add("popup_visible");
- const form = modal.querySelector(".popup__form");
-  if (form) form.reset();
-  formValidate.resetValidation();
+// const openModal = (modal) => {
+//   modal.classList.add("popup_visible");
+//  const form = modal.querySelector(".popup__form");
+//   if (form) form.reset();
+//   formValidate.resetValidation();
 
 
-};
+// };
 
-const closeModal = (modal) => {
-  modal.classList.remove("popup_visible");
-};
+// const closeModal = (modal) => {
+//   modal.classList.remove("popup_visible");
+// };
 
 
 
-addTodoButton.addEventListener("click", () => {
-  openModal(addTodoPopup);
-});
+// addTodoButton.addEventListener("click", () => {
 
-addTodoCloseBtn.addEventListener("click", () => {
-  closeModal(addTodoPopup);
-});
+//   // openModal(addTodoPopup);
+//   addTodoPopupEl.open();
+   
+// });
+
+// addTodoCloseBtn.addEventListener("click", () => {
+//   // closeModal(addTodoPopup);
+//    addTodoPopupEl.close()
+// });
 
 
 
@@ -60,7 +72,8 @@ addTodoForm.addEventListener("submit", (evt) => {
   const values = { id, name, date };
 
   renderTodo(values);
-  closeModal(addTodoPopup);
+  // closeModal(addTodoPopup);
+  addTodoPopupEl.close();
 });
 
 const formValidate = new FormValidator(validationConfig);
