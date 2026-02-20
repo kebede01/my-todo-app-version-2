@@ -1,20 +1,23 @@
 export class Todos {
-  constructor(data, cardSelector) {
+  constructor(data, cardSelector, handleCompletion, handleDeletion) {
     this._id = data.id;
     this._name = data.name;
     this._completed = data.completed;
     this._date = data.date;
     this._cardTemplate = document.querySelector(`#${cardSelector}`);
+    this._handleCompletion = handleCompletion;
+    this._handleDeletion = handleDeletion;
   }
 
   _setEventListeners() {
-    this._todoCompleted.addEventListener("change", () => {
-      //  this._completed =  this._todoCompleted.checked;
+    this._todoCompleted.addEventListener("click", () => {
       this._completed = !this._completed;
+      this._handleCompletion(this._completed);
     });
 
     this._delBut.addEventListener("click", () => {
       this._element.remove();
+      this._handleDeletion(this._completed);
     });
   }
   _generateCheckedBoxEl() {
